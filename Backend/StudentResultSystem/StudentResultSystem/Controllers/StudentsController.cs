@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StudentResultSystem.Application.DTOs.Student;
 using StudentResultSystem.Application.Interfaces;
 
@@ -6,6 +7,7 @@ namespace StudentResultSystem.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = "Admin,Teacher")]
 public class StudentsController : ControllerBase
 {
     private readonly IStudentService _studentService;
