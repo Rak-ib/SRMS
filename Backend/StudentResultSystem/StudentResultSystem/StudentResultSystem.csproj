@@ -24,9 +24,4 @@
     <ProjectReference Include="..\StudentResultSystem.Infrastructure\StudentResultSystem.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>

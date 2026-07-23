@@ -41,9 +41,6 @@ builder.Services.AddAuthentication(options =>
 });
 
 
-
-
-
 builder.Services.AddControllers();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
@@ -51,6 +48,10 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IAcademicTermRepository, AcademictermRepository>();
+builder.Services.AddScoped<IAcademicTermService, AcademicTermService>();
+builder.Services.AddScoped<IDeptRepository, DeptRepository>();
+builder.Services.AddScoped<IDeptService, DeptService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
