@@ -44,10 +44,12 @@ public class UserService : IUserService
 
         return MapToResponseDto(user);
     }
-    public async Task<UserResponseDto?> GetUserByIdAsync(int id)
+    public async Task<UserResponseDto> GetUserByIdAsync(int id)
     {
         var user = await _userRepository.GetByIdAsync(id);
-        return user == null ? null : MapToResponseDto(user);
+        if (user == null)
+            throw new KeyNotFoundException($"User with ID '{id}' not found.");
+        return MapToResponseDto(user);
     }
 
     public async Task<IEnumerable<UserResponseDto>> GetAllUsersAsync()

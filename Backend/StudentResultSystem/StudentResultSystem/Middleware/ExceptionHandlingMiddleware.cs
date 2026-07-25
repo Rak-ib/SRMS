@@ -36,6 +36,7 @@ public class ExceptionHandlingMiddleware
             ConflictException => HttpStatusCode.Conflict,
             InvalidOperationException => HttpStatusCode.Conflict,
             UnauthorizedAccessException => HttpStatusCode.Unauthorized,
+            KeyNotFoundException => HttpStatusCode.NotFound,
             _ => HttpStatusCode.InternalServerError
         };
 

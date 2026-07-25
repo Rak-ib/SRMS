@@ -13,6 +13,6 @@ public interface IAcademicTermService
     Task<int> GetTotalEnrollment(int academicTermId);
     Task<int?> GetTermId(string termName, string termNumber);
     Task<AcademicTermResponseDto> CreateTermAsync(AcademicTermCreateDto term);
-    Task<bool> UpdateTermAsync(AcademicTermUpdateDto term);
+    Task<bool> UpdateTermAsync(int id,AcademicTermUpdateDto term);
     Task<bool> DeleteTermAsync(int id);
 }

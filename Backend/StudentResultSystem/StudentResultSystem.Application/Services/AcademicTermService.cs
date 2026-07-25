@@ -51,11 +51,6 @@ public class AcademicTermService : IAcademicTermService
 
     public async Task<AcademicTermResponseDto> CreateTermAsync(AcademicTermCreateDto term)
     {
-        int? existingTermId = await _academicTermRepository.GetTermId(term.TermName, term.TermNumber);
-        if (existingTermId!=null)
-        {
-            throw new InvalidOperationException($"Academic term with name '{term.TermName}' and number '{term.TermNumber}' already exists.");
-        }
         var newTerm = new Academicterm
         {
             TermName = term.TermName,
@@ -76,12 +71,12 @@ public class AcademicTermService : IAcademicTermService
         };
     }
 
-    public async Task<bool> UpdateTermAsync(AcademicTermUpdateDto term)
+    public async Task<bool> UpdateTermAsync(int id, AcademicTermUpdateDto term)
     {
-        var existingTerm = await _academicTermRepository.GetByIdAsync(term.Id);
+        var existingTerm = await _academicTermRepository.GetByIdAsync(id);
         if (existingTerm == null)
         {
-            throw new KeyNotFoundException($"Academic term with ID {term.Id} not found.");
+            throw new KeyNotFoundException($"Academic term with ID {id} not found.");
         }
         existingTerm.TermName = term.TermName;
         existingTerm.TermNumber = term.TermNumber;

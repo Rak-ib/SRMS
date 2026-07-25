@@ -18,10 +18,7 @@ public class AcademictermRepository : GenericRepository<Academicterm>, IAcademic
     {
         var term = await _context.Academicterms
             .FirstOrDefaultAsync(t => t.TermName == termName && t.TermNumber == termNumber);
-        if (term == null)
-        {
-            throw new InvalidOperationException($"Academic term with name '{termName}' and number '{termNumber}' not found.");
-        }
-        return term.Id;
+        
+        return term?.Id;
     }
 }

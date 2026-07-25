@@ -12,9 +12,9 @@ public class DeptService : IDeptService
     {
         _deptRepository = deptRepository;
     }
-    public async Task<IEnumerable<Department>> GetAllDepartmentsAsync()
+    public async Task<IEnumerable<DeptResponseDto>> GetAllDepartmentsAsync()
     {
-        return await _deptRepository.GetAllAsync();
+        return (await _deptRepository.GetAllAsync()).Select(MapToResponseDto);
     }
     public async Task<DeptResponseDto> GetDepartmentByIdAsync(int id)
     {
@@ -63,19 +63,21 @@ public class DeptService : IDeptService
     }
     public async Task<bool> DeleteDepartmentAsync(int id)
     {
-        bool exists = await _deptRepository.ExistsAsync(id);
-        if (!exists)
+        var dept = await _deptRepository.GetByIdAsync(id);
+        if (dept==null)
         {
             throw new KeyNotFoundException($"Department with ID '{id}' not found.");
         }
-        _deptRepository.Delete(await _deptRepository.GetByIdAsync(id));
+        
+        _deptRepository.Delete(dept);
         await _deptRepository.SaveChangesAsync();
         return true;
     }
 
     private static DeptResponseDto MapToResponseDto(Department dept) => new()
     {
-        
+
+        Id = dept.Id,
         Name = dept.DeptName,
         Code = dept.Code
     };

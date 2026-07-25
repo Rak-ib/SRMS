@@ -55,7 +55,7 @@ public class AcademicTermController : ControllerBase
     [Route("{id:int}")]
     public async Task<IActionResult> Update(int id, AcademicTermUpdateDto dto)
     {
-        var result = await _academicTermService.UpdateTermAsync(dto);
+        var result = await _academicTermService.UpdateTermAsync(id,dto);
         if (!result)
             return NotFound($"Academic Term with Id {id} not found.");
         return NoContent();
