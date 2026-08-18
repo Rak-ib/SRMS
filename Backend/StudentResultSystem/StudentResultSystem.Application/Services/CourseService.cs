@@ -50,6 +50,12 @@ public class CourseService : ICourseService
 
     public async Task<CourseResponseDto> CreateCourseAsync(CourseCreateDto courseCreateDto)
     {
+
+        var existing = await _courseRepository.GetByCourseCode(courseCreateDto.Code);
+        if (existing)
+        {
+            throw new InvalidOperationException($"Course with code '{courseCreateDto.Code}' already exists.");
+        }
         var course = new Course
         {
             Title = courseCreateDto.Title,

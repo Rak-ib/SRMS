@@ -19,4 +19,11 @@ public class CourseRepository : GenericRepository<Course>, ICourseRepository
     {
         return await _context.Courses.Where(c => c.DepartmentId == departmentId).ToListAsync();
     }
+
+    public async Task<bool>GetByCourseCode(string courseCode)
+    {
+        var exist= await _context.Courses.Where(c=> c.Code == courseCode).ToListAsync();
+        return exist.Any();
+        
+    }
 }

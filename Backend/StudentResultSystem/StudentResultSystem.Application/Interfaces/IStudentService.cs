@@ -5,6 +5,9 @@ namespace StudentResultSystem.Application.Interfaces;
 public interface IStudentService
 {
     Task<StudentResponseDto?> GetByIdAsync(int id);
+
+    Task<StudentResponseDto> GetMyProfileAsync(int userId);
+
     Task<IEnumerable<StudentResponseDto>> GetAllAsync();
     Task<IEnumerable<StudentResponseDto>> GetByDepartmentAsync(int departmentId);
     Task<StudentResponseDto> CreateAsync(StudentCreateDto dto);

@@ -13,6 +13,13 @@ public class StudentService : IStudentService
         _studentRepository = studentRepository;
     }
 
+    public async Task<StudentResponseDto> GetMyProfileAsync(int userId)
+    {
+        
+        var student = await _studentRepository.GetMyProfileAsync(userId);
+        return MapToResponseDto(student);
+    }   
+
     public async Task<StudentResponseDto?> GetByIdAsync(int id)
     {
         var student = await _studentRepository.GetByIdAsync(id);

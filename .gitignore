@@ -39,6 +39,19 @@ yarn-error.log*
 .env.*
 
 ############################
+# Backend credentials
+############################
+**/appsettings.Development.json
+**/appsettings.Production.json
+**/appsettings.Staging.json
+
+############################
+# Frontend environment files
+############################
+**/src/environments/environment.ts
+**/src/environments/environment.prod.ts
+
+############################
 # VS Code
 ############################
 .vscode/

@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using StudentResultSystem.Application.DTOs.Student;
 using StudentResultSystem.Application.Interfaces;
+using System.Security.Claims;
 
 namespace StudentResultSystem.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "Admin,Teacher")]
 public class StudentsController : ControllerBase
 {
     private readonly IStudentService _studentService;
@@ -16,6 +16,23 @@ public class StudentsController : ControllerBase
     {
         _studentService = studentService;
     }
+
+    [HttpGet("me")]
+    public async Task<ActionResult<StudentResponseDto>> GetMyProfile()
+    {
+        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userIdClaim == null)
+            return Unauthorized();
+
+        var userId = int.Parse(userIdClaim);
+
+        var student = await _studentService.GetMyProfileAsync(userId);
+        if (student == null)
+            return NotFound("No student record linked to this account.");
+
+        return Ok(student);
+    }
+
 
     // GET: api/students
     [HttpGet]
