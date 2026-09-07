@@ -1,0 +1,50 @@
+<div class="space-y-6 font-sans">
+  <!-- Page Header -->
+  <div>
+    <h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">My Enrollments</h2>
+    <p class="mt-1 text-sm text-slate-400">View your course enrollments and academic term details.</p>
+  </div>
+
+  <!-- Loading State -->
+  @if (isLoading()) {
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/10 p-12">
+      <app-loading-spinner size="md" message="Loading your enrollments..."></app-loading-spinner>
+    </div>
+  } @else if (sortedEnrollments().length === 0) {
+    <!-- Empty State -->
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/30 p-12 text-center">
+      <svg class="mx-auto h-12 w-12 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+      </svg>
+      <h3 class="mt-4 text-lg font-semibold text-white">No Enrollments Found</h3>
+      <p class="mt-2 text-sm text-slate-400">You haven't been enrolled in any courses yet. Contact your administrator if this seems incorrect.</p>
+    </div>
+  } @else {
+    <!-- Enrollments Table -->
+    <app-table
+      [data]="sortedEnrollments()"
+      [columns]="tableColumns"
+      [totalItems]="sortedEnrollments().length"
+      [pageSize]="sortedEnrollments().length"
+      [pageIndex]="0"
+      [sortField]="sortField()"
+      [sortDirection]="sortDirection()"
+      [actions]="[]"
+      (sortChange)="onSortChange($event)"
+    ></app-table>
+
+    <!-- Info Notice -->
+    <div class="rounded-lg border border-indigo-900/30 bg-indigo-950/20 p-4">
+      <div class="flex items-start gap-3">
+        <svg class="h-5 w-5 text-indigo-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <div>
+          <p class="text-sm text-indigo-200">
+            <span class="font-semibold">Read-only view:</span> Your enrollments are managed by your department. If you need to make changes to your course enrollments, please contact your academic advisor or administrator.
+          </p>
+        </div>
+      </div>
+    </div>
+  }
+</div>

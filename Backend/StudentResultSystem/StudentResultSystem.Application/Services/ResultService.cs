@@ -25,6 +25,12 @@ public class ResultService : IResultService
         return _mapper.Map<IEnumerable<ResultResponseDto>>(results);
     }
 
+    public async Task<IEnumerable<StudentResultDto>> GetResultsByStudentIdAsync(int studentId)
+    {
+        var results = await _resultRepository.GetByStudentIdAsync(studentId);
+        return _mapper.Map<IEnumerable<StudentResultDto>>(results);
+    }
+
     public async Task<ResultResponseDto> AddResultAsync(ResultCreateDto dto)
     {
         var result = _mapper.Map<Result>(dto);
@@ -71,4 +77,38 @@ public class ResultService : IResultService
         }
         return _mapper.Map<ResultResponseDto>(result);
     }
+
+    public async Task<decimal> CalculateCgpaAsync(int studentId)
+    {
+        var results = await _resultRepository.GetByStudentIdAsync(studentId);
+
+        if (!results.Any())
+        {
+            throw new KeyNotFoundException(
+                $"No results found for student with id {studentId}.");
+        }
+
+        decimal totalGradePoints = 0;
+        decimal totalCredits = 0;
+
+        foreach (var result in results)
+        {
+            if (result.GradePoint == null)
+                continue;
+
+            totalGradePoints +=
+                result.GradePoint.Value * result.CreditHours;
+
+            totalCredits += result.CreditHours;
+        }
+
+        if (totalCredits == 0)
+        {
+            throw new InvalidOperationException(
+                "Total credits cannot be zero when calculating CGPA.");
+        }
+
+        return totalGradePoints / totalCredits;
+    }
+
 }

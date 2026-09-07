@@ -1,0 +1,109 @@
+<div class="relative flex min-h-screen items-center justify-center bg-slate-950 px-4 py-12 sm:px-6 lg:px-8 overflow-hidden font-sans">
+  <!-- Glowing Background Orbs -->
+  <div class="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-indigo-500/10 blur-3xl"></div>
+  <div class="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-pink-500/10 blur-3xl"></div>
+
+  <div class="w-full max-w-md space-y-8 z-10">
+    <div class="text-center">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 shadow-xl shadow-indigo-500/25">
+        <span class="font-bold text-white text-2xl tracking-wider">SR</span>
+      </div>
+      <h2 class="mt-6 text-3xl font-extrabold tracking-tight text-white">Sign in to SRMS</h2>
+      <p class="mt-2 text-sm text-slate-400">
+        Student Result Management System Portal
+      </p>
+    </div>
+
+    <!-- Login Card -->
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-8 shadow-2xl backdrop-blur-md">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <!-- Error Alert -->
+        @if (errorMessage()) {
+          <div class="rounded-lg bg-red-500/10 border border-red-500/30 p-4 text-xs text-red-400 flex items-start gap-2.5">
+            <svg class="h-4.5 w-4.5 shrink-0 text-red-400 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <span>{{ errorMessage() }}</span>
+          </div>
+        }
+
+        <!-- Username Field -->
+        <div class="space-y-2">
+          <label for="username" class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Username</label>
+          <div class="relative">
+            <input
+              id="username"
+              type="text"
+              formControlName="username"
+              [class]="isFieldInvalid('username')
+                ? 'w-full rounded-lg bg-slate-950 border border-red-500/50 px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all font-medium'
+                : 'w-full rounded-lg bg-slate-950 border border-slate-850 px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium'"
+              placeholder="e.g. admin"
+            />
+          </div>
+          @if (isFieldInvalid('username')) {
+            <p class="text-[10px] text-red-400 font-medium">Username is required.</p>
+          }
+        </div>
+
+        <!-- Password Field -->
+        <div class="space-y-2">
+          <label for="password" class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Password</label>
+          <div class="relative">
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              [class]="isFieldInvalid('password')
+                ? 'w-full rounded-lg bg-slate-950 border border-red-500/50 px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all font-medium'
+                : 'w-full rounded-lg bg-slate-950 border border-slate-850 px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium'"
+              placeholder="••••••••"
+            />
+          </div>
+          @if (isFieldInvalid('password')) {
+            <p class="text-[10px] text-red-400 font-medium">Password must be at least 6 characters.</p>
+          }
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          [disabled]="isLoading()"
+          class="relative w-full rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 active:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150 flex items-center justify-center gap-2"
+        >
+          @if (isLoading()) {
+            <svg class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>Signing in...</span>
+          } @else {
+            <span>Sign In</span>
+          }
+        </button>
+      </form>
+    </div>
+
+    <!-- Demo Credentials Panel -->
+    <div class="rounded-xl border border-slate-850 bg-slate-950/80 p-5 text-xs text-slate-400 leading-normal space-y-2.5">
+      <p class="font-semibold text-slate-300">💡 Local Sandbox Credentials:</p>
+      <div class="grid grid-cols-3 gap-2 text-[10px]">
+        <div class="bg-slate-900 border border-slate-850 p-2 rounded">
+          <p class="font-bold text-indigo-400">Admin</p>
+          <p class="mt-1 font-mono text-slate-500 select-all">admin</p>
+          <p class="font-mono text-slate-500">password123</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-850 p-2 rounded">
+          <p class="font-bold text-indigo-400">Teacher</p>
+          <p class="mt-1 font-mono text-slate-500 select-all">teacher</p>
+          <p class="font-mono text-slate-500">password123</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-850 p-2 rounded">
+          <p class="font-bold text-indigo-400">Student</p>
+          <p class="mt-1 font-mono text-slate-500 select-all">student</p>
+          <p class="font-mono text-slate-500">password123</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

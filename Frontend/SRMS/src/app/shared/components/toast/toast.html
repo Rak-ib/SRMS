@@ -1,0 +1,45 @@
+<div class="fixed top-6 right-6 z-50 flex flex-col gap-3 w-full max-w-sm pointer-events-none">
+  @for (toast of toasts(); track toast.id) {
+    <div
+      [class]="'flex items-start gap-3 rounded-xl border p-4 shadow-2xl backdrop-blur-md transition-all duration-300 transform pointer-events-auto ' + 
+        (toast.type === 'success' ? 'bg-emerald-950/90 text-slate-100 border-emerald-500/30 shadow-emerald-500/5' : '') +
+        (toast.type === 'error' ? 'bg-rose-950/90 text-slate-100 border-rose-500/30 shadow-rose-500/5' : '') +
+        (toast.type === 'warning' ? 'bg-amber-950/90 text-slate-100 border-amber-500/30 shadow-amber-500/5' : '') +
+        (toast.type === 'info' ? 'bg-indigo-950/90 text-slate-100 border-indigo-500/30 shadow-indigo-500/5' : '')"
+    >
+      <!-- Icon based on toast type -->
+      @if (toast.type === 'success') {
+        <svg class="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      } @else if (toast.type === 'error') {
+        <svg class="h-5 w-5 text-rose-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      } @else if (toast.type === 'warning') {
+        <svg class="h-5 w-5 text-amber-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      } @else if (toast.type === 'info') {
+        <svg class="h-5 w-5 text-indigo-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      }
+
+      <!-- Toast Content -->
+      <div class="flex-1">
+        <p class="text-xs font-semibold leading-normal">{{ toast.message }}</p>
+      </div>
+
+      <!-- Close Action -->
+      <button
+        (click)="remove(toast.id)"
+        class="text-slate-400 hover:text-white shrink-0 transition-colors cursor-pointer"
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  }
+</div>

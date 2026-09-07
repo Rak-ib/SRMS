@@ -1,0 +1,41 @@
+<aside class="flex h-[calc(100vh-4rem)] w-64 flex-col border-r border-slate-800 bg-slate-900 px-4 py-6">
+  <div class="space-y-4">
+    <p class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Navigation</p>
+    <nav class="flex flex-col gap-1">
+      @for (item of navItems; track item.label) {
+        @if (isAllowed(item)) {
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="bg-indigo-600/10 text-indigo-400 border-indigo-500/50"
+            class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 border border-transparent hover:bg-slate-850 hover:text-white transition-all duration-200"
+          >
+            <svg
+              class="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="item.icon" />
+            </svg>
+            <span>{{ item.label }}</span>
+          </a>
+        }
+      }
+    </nav>
+  </div>
+
+  <!-- Bottom contextual role state info -->
+  <div class="mt-auto rounded-xl bg-slate-950 p-4 border border-slate-850">
+    <div class="flex items-center gap-2">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+      </span>
+      <span class="text-xs font-semibold text-slate-400">Context: <strong class="text-white">{{ activeRole() }}</strong></span>
+    </div>
+    <p class="mt-1 text-[10px] text-slate-500 leading-normal">
+      Showing options authorized for the {{ activeRole() }} role. Switch roles above to preview different access levels.
+    </p>
+  </div>
+</aside>

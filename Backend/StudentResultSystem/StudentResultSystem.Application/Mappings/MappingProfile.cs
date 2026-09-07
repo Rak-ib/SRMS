@@ -17,5 +17,7 @@ public class MappingProfile : Profile
         CreateMap<Result, ResultResponseDto>();
         CreateMap<ResultCreateDto, Result>();
         CreateMap<ResultUpdateDto, Result>();
+
+        CreateMap<StudentResultDto, StudentResultDto>();
     }
 }

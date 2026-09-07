@@ -1,0 +1,82 @@
+<div class="space-y-6 font-sans">
+  <!-- Page Header -->
+  <div>
+    <h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">My Profile</h2>
+    <p class="mt-1 text-sm text-slate-400">View your student information and academic details.</p>
+  </div>
+
+  <!-- Loading State -->
+  @if (isLoading()) {
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/10 p-12">
+      <app-loading-spinner size="md" message="Loading your profile..."></app-loading-spinner>
+    </div>
+  } @else if (hasError()) {
+    <!-- Error State -->
+    <div class="rounded-2xl border border-red-900/50 bg-red-950/20 p-8 text-center">
+      <svg class="mx-auto h-12 w-12 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+      <h3 class="mt-4 text-lg font-semibold text-white">Profile Not Found</h3>
+      <p class="mt-2 text-sm text-slate-400">No student record is linked to your account. Please contact your administrator.</p>
+    </div>
+  } @else {
+    <!-- Profile Display Card -->
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/30 p-6 sm:p-8">
+      <div class="grid gap-6 sm:grid-cols-2">
+        <!-- Student Name -->
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Full Name</label>
+          <p class="text-base font-medium text-white">{{ student()?.studentName }}</p>
+        </div>
+
+        <!-- Registration Number -->
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Registration No</label>
+          <p class="text-base font-medium text-white">{{ student()?.regNo }}</p>
+        </div>
+
+        <!-- Email -->
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Email Address</label>
+          <p class="text-base font-medium text-white">{{ student()?.email }}</p>
+        </div>
+
+        <!-- Batch Year -->
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Batch Year</label>
+          <p class="text-base font-medium text-white">{{ student()?.batchYear }}</p>
+        </div>
+
+        <!-- Department -->
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Department</label>
+          @if (department()) {
+            <p class="text-base font-medium text-white">{{ department()?.name }} ({{ department()?.code }})</p>
+          } @else {
+            <p class="text-base font-medium text-slate-500">Not assigned</p>
+          }
+        </div>
+
+        <!-- Student ID -->
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Student ID</label>
+          <p class="text-base font-medium text-white">{{ student()?.id }}</p>
+        </div>
+      </div>
+
+      <!-- Info Notice -->
+      <div class="mt-8 rounded-lg border border-indigo-900/30 bg-indigo-950/20 p-4">
+        <div class="flex items-start gap-3">
+          <svg class="h-5 w-5 text-indigo-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <div>
+            <p class="text-sm text-indigo-200">
+              <span class="font-semibold">Read-only view:</span> Profile information can only be updated by administrators or teachers. Contact your department administrator if any details need to be corrected.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

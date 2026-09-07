@@ -1,0 +1,130 @@
+<div class="max-w-3xl mx-auto space-y-6 font-sans">
+  <!-- Header -->
+  <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+    <div>
+      <h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+        {{ isEditMode() ? 'Edit Student Profile' : 'Register New Student' }}
+      </h2>
+      <p class="mt-1 text-sm text-slate-400">
+        {{ isEditMode() ? 'Modify student registration details, email, and active department.' : 'Define student credentials and assign their academic department.' }}
+      </p>
+    </div>
+  </div>
+
+  @if (isLoading() && departments().length === 0) {
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/10 p-12">
+      <app-loading-spinner size="md" message="Loading form datasets..."></app-loading-spinner>
+    </div>
+  } @else {
+    <!-- Form Card -->
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 md:p-8 shadow-xl backdrop-blur-sm relative">
+      <!-- Loading Overlay during Form Save -->
+      @if (isLoading()) {
+        <app-loading-spinner [overlay]="true" message="Saving records..."></app-loading-spinner>
+      }
+
+      <form [formGroup]="studentForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          
+          <!-- Student ID (Self-assigned) -->
+          <app-form-input
+            id="studentId"
+            label="Student ID (Integer)"
+            type="text"
+            [control]="getControl('id')"
+            placeholder="e.g. 108"
+            [errorMessages]="{ required: 'Student ID is required.', pattern: 'ID must be an integer.' }"
+          ></app-form-input>
+
+          <!-- Registration Number -->
+          <app-form-input
+            id="regNo"
+            label="Registration Number"
+            type="text"
+            [control]="getControl('regNo')"
+            placeholder="e.g. REG-2026-042"
+          ></app-form-input>
+
+          <!-- Student Name -->
+          <app-form-input
+            id="studentName"
+            label="Full Name"
+            type="text"
+            [control]="getControl('studentName')"
+            placeholder="e.g. John Doe"
+          ></app-form-input>
+
+          <!-- Email Address -->
+          <app-form-input
+            id="email"
+            label="Email Address"
+            type="email"
+            [control]="getControl('email')"
+            placeholder="e.g. john.doe@example.com"
+          ></app-form-input>
+
+          <!-- Batch Year -->
+          <app-form-input
+            id="batchYear"
+            label="Batch Year (YYYY)"
+            type="text"
+            [control]="getControl('batchYear')"
+            placeholder="e.g. 2025"
+            [errorMessages]="{ required: 'Batch Year is required.', pattern: 'Batch must be a 4-digit year.' }"
+          ></app-form-input>
+
+          <!-- Department Selector -->
+          <div class="space-y-1.5">
+            <label
+              for="departmentId"
+              [class]="getControl('departmentId').invalid && getControl('departmentId').touched
+                ? 'text-[10px] font-bold text-red-400 uppercase tracking-wider'
+                : 'text-[10px] font-bold text-slate-400 uppercase tracking-wider'"
+            >
+              Academic Department
+            </label>
+            <select
+              id="departmentId"
+              formControlName="departmentId"
+              class="w-full rounded-lg bg-slate-950 border border-slate-850 px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium"
+            >
+              <option value="" disabled selected>Select Department...</option>
+              @for (dept of departments(); track dept.id) {
+                <option [value]="dept.id">{{ dept.name }} ({{ dept.code }})</option>
+              }
+            </select>
+            @if (getControl('departmentId').invalid && getControl('departmentId').touched) {
+              <p class="text-[10px] text-red-400 font-medium tracking-wide">Please select a department.</p>
+            }
+          </div>
+
+          <!-- Associated User ID (Optional) -->
+          <app-form-input
+            id="userId"
+            label="User Link ID (Optional)"
+            type="text"
+            [control]="getControl('userId')"
+            placeholder="e.g. 4"
+          ></app-form-input>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex justify-end gap-3 border-t border-slate-800/80 pt-6">
+          <a
+            routerLink="/students"
+            class="rounded-lg border border-slate-800 bg-slate-900 px-5 py-2 text-xs font-semibold text-slate-300 hover:bg-slate-850 hover:text-white transition-all cursor-pointer"
+          >
+            Cancel
+          </a>
+          <button
+            type="submit"
+            [disabled]="isLoading() || studentForm.invalid"
+            class="rounded-lg bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/10 hover:bg-indigo-500 active:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150 cursor-pointer"
+          >
+            {{ isEditMode() ? 'Save Changes' : 'Register Student' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

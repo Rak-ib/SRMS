@@ -43,4 +43,18 @@ public class ResultController : ControllerBase
         await _resultService.DeleteResultAsync(id);
         return NoContent();
     }
+
+    [HttpGet("student/{studentId:int}/cgpa")]
+    public async Task<IActionResult> GetCgpa(int studentId)
+    {
+        var cgpa = await _resultService.CalculateCgpaAsync(studentId);
+        return Ok(cgpa);
+    }
+
+    [HttpGet("student/{studentId:int}")]
+    public async Task<IActionResult> GetResultsByStudentId(int studentId)
+    {
+        var results = await _resultService.GetResultsByStudentIdAsync(studentId);
+        return Ok(results);
+    }
 }
