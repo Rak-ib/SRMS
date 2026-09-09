@@ -9,4 +9,6 @@ public interface IGenericRepository<T> where T : class
     void Delete(T entity);
     Task<bool> ExistsAsync(int id);
     Task SaveChangesAsync();
+
+    Task<int> CountAsync();
 }
