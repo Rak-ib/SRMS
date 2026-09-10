@@ -8,7 +8,8 @@ import { ToastService } from '@shared/services/toast.service';
 import { TableComponent, TableColumn } from '@shared/components/table/table';
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog';
 import { LoadingSpinnerComponent } from '@shared/components/loading-spinner/loading-spinner';
-import { DepartmentService, DeptResponseDto } from '../../departments/services/department.service';
+import { DepartmentService } from '../../departments/services/department.service';
+import { DeptResponseDto } from '../../departments/models/department.model';
 import { FormsModule } from '@angular/forms';
 
 /**

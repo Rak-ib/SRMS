@@ -76,8 +76,9 @@ src/
 │   │
 │   ├── features/                    # Feature modules — one folder per domain entity
 │   │   ├── auth/                    # Login page, access-denied page
+│   │   ├── dashboard/               # ✅ Real-time statistics for Admin/Teacher
 │   │   ├── students/                # ✅ Fully built — reference implementation
-│   │   ├── departments/             # 🔲 To build
+│   │   ├── departments/             # ✅ Fully built — CRUD with Admin-only access
 │   │   ├── courses/                 # 🔲 To build
 │   │   ├── academic-terms/          # 🔲 To build
 │   │   ├── enrollments/             # 🔲 To build
@@ -570,7 +571,7 @@ interface NormalizedError {
 ### Near-term
 
 - Complete remaining feature modules following the Students pattern:
-  - Departments CRUD
+  - ✅ Departments CRUD (Admin-only access)
   - Courses CRUD
   - Academic Terms CRUD
   - Enrollments management

@@ -1,0 +1,67 @@
+<div class="max-w-3xl mx-auto space-y-6 font-sans">
+  <!-- Header -->
+  <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+    <div>
+      <h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+        {{ isEditMode() ? 'Edit Department' : 'Add New Department' }}
+      </h2>
+      <p class="mt-1 text-sm text-slate-400">
+        {{ isEditMode() ? 'Modify department name and code.' : 'Create a new academic department with its unique code.' }}
+      </p>
+    </div>
+  </div>
+
+  @if (isLoading() && isEditMode()) {
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/10 p-12">
+      <app-loading-spinner size="md" message="Loading department details..."></app-loading-spinner>
+    </div>
+  } @else {
+    <!-- Form Card -->
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 md:p-8 shadow-xl backdrop-blur-sm relative">
+      <!-- Loading Overlay during Form Save -->
+      @if (isLoading()) {
+        <app-loading-spinner [overlay]="true" message="Saving department..."></app-loading-spinner>
+      }
+
+      <form [formGroup]="departmentForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          
+          <!-- Department Name -->
+          <app-form-input
+            id="name"
+            label="Department Name"
+            type="text"
+            [control]="getControl('name')"
+            placeholder="e.g. Computer Science"
+          ></app-form-input>
+
+          <!-- Department Code -->
+          <app-form-input
+            id="code"
+            label="Department Code"
+            type="text"
+            [control]="getControl('code')"
+            placeholder="e.g. CS"
+          ></app-form-input>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex justify-end gap-3 border-t border-slate-800/80 pt-6">
+          <a
+            routerLink="/departments"
+            class="rounded-lg border border-slate-800 bg-slate-900 px-5 py-2 text-xs font-semibold text-slate-300 hover:bg-slate-850 hover:text-white transition-all cursor-pointer"
+          >
+            Cancel
+          </a>
+          <button
+            type="submit"
+            [disabled]="isLoading() || departmentForm.invalid"
+            class="rounded-lg bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/10 hover:bg-indigo-500 active:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150 cursor-pointer"
+          >
+            {{ isEditMode() ? 'Save Changes' : 'Create Department' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>
