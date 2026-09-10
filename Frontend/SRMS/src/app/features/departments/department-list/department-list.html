@@ -1,0 +1,71 @@
+<div class="space-y-6 font-sans">
+  <!-- Top Action Header -->
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">Departments</h2>
+      <p class="mt-1 text-sm text-slate-400">Manage academic departments and their codes.</p>
+    </div>
+    
+    <!-- Render Add Button only if authorized (Admin) -->
+    @if (canCreate()) {
+      <a
+        routerLink="/departments/new"
+        class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-indigo-500 active:bg-indigo-700 transition-all duration-150 text-center cursor-pointer"
+      >
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+        Add Department
+      </a>
+    }
+  </div>
+
+  <!-- Interactive Filters -->
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 rounded-2xl border border-slate-800 bg-slate-900/30 p-4">
+    <!-- Search Query -->
+    <div class="space-y-1.5">
+      <label for="search" class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Search Departments</label>
+      <input
+        id="search"
+        type="text"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event); pageIndex.set(0)"
+        placeholder="Search by name or code..."
+        class="w-full rounded-lg bg-slate-950 border border-slate-850 px-4 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+      />
+    </div>
+  </div>
+
+  <!-- Table View / Loading Indicator -->
+  @if (isLoading()) {
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/10 p-12">
+      <app-loading-spinner size="md" message="Loading departments..."></app-loading-spinner>
+    </div>
+  } @else {
+    <!-- Reusable Table Component feeding computed local signals -->
+    <app-table
+      [data]="paginatedDepartments()"
+      [columns]="tableColumns"
+      [totalItems]="filteredDepartments().length"
+      [pageSize]="pageSize()"
+      [pageIndex]="pageIndex()"
+      [sortField]="sortField()"
+      [sortDirection]="sortDirection()"
+      [actions]="tableActions()"
+      (pageChange)="onPageChange($event)"
+      (sortChange)="onSortChange($event)"
+      (actionClick)="onTableAction($event)"
+    ></app-table>
+  }
+
+  <!-- Reusable Confirm Delete Dialog Modal -->
+  <app-confirm-dialog
+    [isOpen]="isDeleteOpen()"
+    [isDeleting]="isDeleting()"
+    [itemName]="departmentToDelete()?.name + ' (' + departmentToDelete()?.code + ')'"
+    title="Delete Department"
+    message="Are you sure you want to permanently delete this department? This will affect all courses and students associated with this department."
+    (confirm)="confirmDelete()"
+    (cancel)="isDeleteOpen.set(false); departmentToDelete.set(null)"
+  ></app-confirm-dialog>
+</div>

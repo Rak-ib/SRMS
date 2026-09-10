@@ -4,7 +4,8 @@ import { StudentService } from '../../students/services/student.service';
 import { StudentResponseDto } from '../../students/models/student.model';
 import { ToastService } from '@shared/services/toast.service';
 import { LoadingSpinnerComponent } from '@shared/components/loading-spinner/loading-spinner';
-import { DepartmentService, DeptResponseDto } from '../../departments/services/department.service';
+import { DepartmentService } from '../../departments/services/department.service';
+import { DeptResponseDto } from '../../departments/models/department.model';
 
 /**
  * My Profile Component
